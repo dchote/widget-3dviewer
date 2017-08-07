@@ -2453,7 +2453,6 @@ cpdefine('inline:com-chilipeppr-widget-3dviewer', ['chilipeppr_ready', 'Three', 
             
             this.lastArgs = {cmd: null};
             this.lastFeedrate = null;
-            this.isUnitsMm = true;
             
             this.parseLine = function (text, info) {
                 var origtext = text;
@@ -3312,16 +3311,14 @@ cpdefine('inline:com-chilipeppr-widget-3dviewer', ['chilipeppr_ready', 'Three', 
                     // However, we need to set a global property so the trinket decorations
                     // like toolhead, axes, grid, and extent labels are scaled correctly
                     // later on when they are drawn after the gcode is rendered
-                    console.log("SETTING UNITS TO INCHES!!!");
-                    cofg.isUnitsMm = false; // false means inches cuz default is mm
+                    cofg.setUnits("inch");
                 },
 
                 G21: function () {
                     // G21: Set Units to Millimeters
                     // Example: G21
                     // Units from now on are in millimeters. (This is the RepRap default.)
-                    console.log("SETTING UNITS TO MM!!!");
-                    cofg.isUnitsMm = true; // true means mm
+                    cofg.setUnits("mm");
                 },
 
                 // A bunch of no-op modes that do not affect the viewer
@@ -3418,10 +3415,6 @@ cpdefine('inline:com-chilipeppr-widget-3dviewer', ['chilipeppr_ready', 'Three', 
 
             parser.parse(gcode);
 
-            // set what units we're using in the gcode
-            //console.log('setting units from parser to 3dviewer. parser:', parser, "this:", this);
-            this.isUnitsMm = parser.isUnitsMm;
-            
             console.log("inside creatGcodeFromObject. this:", this);
             console.log("Layer Count ", layers.length);
             
